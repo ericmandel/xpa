@@ -11,10 +11,6 @@
 #ifndef	__xpa_h
 #define	__xpa_h
 
-#if HAVE_CONFIG_H
-#include <conf.h>
-#endif
-
 #include <stdio.h>
 #include <sys/types.h>
 #include <prsetup.h>
