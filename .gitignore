@@ -4,4 +4,6 @@
 *.bak
 foo*
 Makefile
+conf.h
 config.status
+config.cache
