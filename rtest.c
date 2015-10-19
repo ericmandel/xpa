@@ -81,7 +81,6 @@ main(argc, argv)
   int doexit=0;
   int poll=1;
   int msec=100;
-  int verbose=0;
   size_t lens[MAX_XPAS];
   char *bufs[MAX_XPAS];
   char *names[MAX_XPAS];
@@ -119,7 +118,6 @@ main(argc, argv)
       quiet = 1;
       break;
     case 'v':
-      verbose = 1;
       break;
     default:
       break;

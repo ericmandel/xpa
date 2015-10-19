@@ -257,14 +257,14 @@ static int XPATclHandler(client_data, call_data, paramlist, buf, len, nargs)
 #ifdef ANSI_FUNC
 static int 
 XPATclReceive (void *client_data, void *call_data, char *paramlist,
-	       char *buf, int len)
+	       char *buf, size_t len)
 #else
 static int XPATclReceive(client_data, call_data, paramlist, buf, len)
      void *client_data;
      void *call_data;
      char *paramlist;
      char *buf;
-     int len;
+     size_t len;
 #endif
 {
   return(XPATclHandler(client_data, call_data, paramlist, buf, len, 6));
@@ -284,14 +284,14 @@ static int XPATclReceive(client_data, call_data, paramlist, buf, len)
 #ifdef ANSI_FUNC
 static int 
 XPATclSend (void *client_data, void *call_data, char *paramlist,
-	    char **buf, int *len)
+	    char **buf, size_t *len)
 #else
 static int XPATclSend(client_data, call_data, paramlist, buf, len)
      void *client_data;
      void *call_data;
      char *paramlist;
      char **buf;
-     int *len;
+     size_t *len;
 #endif
 {
   return(XPATclHandler(client_data, call_data, paramlist, NULL, 0, 4));
@@ -971,7 +971,7 @@ static int XPARec_Tcl(clientData, interp, objc, objv)
     /* create new tcl variable for this socket */
     else{
       /* create a tcl channel corresponding to the xpa socket */
-      if( !(chan = Tcl_MakeTcpClientChannel((ClientData)xpa_cmdfd(xpa))) ){
+      if( !(chan = Tcl_MakeTcpClientChannel((ClientData)(uintptr_t)xpa_cmdfd(xpa))) ){
 	Tcl_SetResult(interp, "XPA$ERROR: could not map XPA cmdfd to tcl",
 		      TCL_STATIC);
 	result = TCL_ERROR;
@@ -1013,7 +1013,7 @@ static int XPARec_Tcl(clientData, interp, objc, objv)
     }
     /* create new tcl variable for this socket */
     else{
-      if( !(chan = Tcl_MakeTcpClientChannel((ClientData)xpa_datafd(xpa))) ){
+      if( !(chan = Tcl_MakeTcpClientChannel((ClientData)(uintptr_t)xpa_datafd(xpa))) ){
 	Tcl_SetResult(interp, "XPA$ERROR: could not map XPA datafd to tcl",
 		      TCL_STATIC);
 	result = TCL_ERROR;
@@ -1089,7 +1089,7 @@ static int XPASetBuf_Tcl(clientData, interp, objc, objv)
 #endif
 {
   int error;
-  size_t len;
+  int len;
   char *buf;
   XPA xpa;
 
@@ -1317,7 +1317,7 @@ static int XPAGet_Tcl(clientData, interp, objc, objv)
   /* allocate return buffers */
   cbufs  = (char **)xcalloc(n, sizeof(char *));
   bufsObjv = (Tcl_Obj **)xcalloc(n, sizeof(Tcl_Obj *));
-  clens  =   (int *)xcalloc(n, sizeof(size_t));
+  clens  =   (size_t *)xcalloc(n, sizeof(size_t));
   lensObjv = (Tcl_Obj **)xcalloc(n, sizeof(Tcl_Obj *));
   if( !TCL_NULLSTR(names) ){
     cnames = (char **)xcalloc(n, sizeof(char *));
@@ -1646,7 +1646,7 @@ static int XPASet_Tcl(clientData, interp, objc, objv)
   int n;
   int i;
   int blen;
-  size_t len;
+  int len;
   char *xpastr;
   char *tmpl;
   char *paramlist;
@@ -2759,9 +2759,9 @@ int Tclxpa_Init (vinterp)
 }
 
 /* required for tclkit 8.6 */
-Tclxpa_Unload() {}
-Tclxpa_SafeUnload() {}
-Tclxpa_SafeInit() {}
+int Tclxpa_Unload() { return TCL_ERROR; }
+int Tclxpa_SafeUnload() { return TCL_ERROR; }
+int Tclxpa_SafeInit() { return TCL_ERROR; }
 
 
 int xpa_tclbinding = 1;
