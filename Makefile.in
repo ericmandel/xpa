@@ -167,6 +167,8 @@ install::	install-man
 
 install::	install-share
 
+install::	install-data
+
 lib:		$(LIB) $(DOSHARED)
 
 $(LIB):		$(LIBOBJS)
@@ -327,6 +329,13 @@ install-share:
 		echo "Installing $$B" ; \
 		$(INSTALL_DATA) $$i $(MAN_SHARE_DIR)/$$B; \
 	    done;)
+
+install-data:	install-pkgconfig
+
+install-pkgconfig:
+		@-(mkdir -p $(LIB_INSTALL_DIR)/pkgconfig; \
+		echo "Installing xpa.pc" ; \
+		$(INSTALL_DATA) xpa.pc $(LIB_INSTALL_DIR)/pkgconfig;)
 
 Makefile:	Makefile.in
 		$(SHELL) config.status
