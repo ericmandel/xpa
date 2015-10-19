@@ -4,6 +4,17 @@
 *.bak
 foo*
 Makefile
+a.out.dSYM/
+autom4te.cache/
+oxpa.h
+xpa.pc
+xpaaccess
+xpaget
+xpainfo
+xpamb
+xpans
+xpaset
 conf.h
 config.status
 config.cache
+config.log
