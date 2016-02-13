@@ -25,6 +25,9 @@
 #if HAVE_STRING_H
 #include <string.h>
 #endif
+#if HAVE_STRINGS_H
+#include <strings.h>
+#endif
 #if HAVE_STDLIB_H
 #include <stdlib.h>
 #endif
@@ -48,6 +51,9 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/stat.h>
+#if HAVE_SYS_SELECT_H
+#include <sys/select.h>
+#endif
 #ifdef __STDC__
 #include <stdarg.h>
 #else

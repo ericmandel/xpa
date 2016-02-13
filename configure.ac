@@ -37,6 +37,7 @@ AC_CHECK_HEADERS(sys/un.h)
 AC_CHECK_HEADERS(sys/shm.h)
 AC_CHECK_HEADERS(sys/mman.h)
 AC_CHECK_HEADERS(sys/ipc.h)
+AC_CHECK_HEADERS(sys/select.h)
 
 AC_CHECK_TYPES([socklen_t], [], [], [#include <sys/socket.h>])
 

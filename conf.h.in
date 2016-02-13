@@ -5,6 +5,9 @@
 /* Define as 1 if you have string.h  */
 #undef HAVE_STRING_H
 
+/* Define as 1 if you have strings.h  */
+#undef HAVE_STRINGS_H
+
 /* Define as 1 if you have stdlib.h  */
 #undef HAVE_STDLIB_H
 
@@ -34,6 +37,9 @@
 
 /* Define as 1 if you have sys/mman.h  */
 #undef HAVE_SYS_MMAN_H
+
+/* Define as 1 if you have sys/select.h  */
+#undef HAVE_SYS_SELECT_H
 
 /* Define as 1 if you have sys/ipc.h  */
 #undef HAVE_SYS_IPC_H
