@@ -24,6 +24,9 @@
 #if HAVE_STRING_H
 #include <string.h>
 #endif
+#if HAVE_STRINGS_H
+#include <strings.h>
+#endif
 #if HAVE_MALLOC_H
 #include <malloc.h>
 #endif
