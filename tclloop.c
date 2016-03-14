@@ -12,7 +12,7 @@
    presence of Windows by the presence of Cygwin. This is important for Tcl
    because Windows does not support Tcl_CreateFileHandler */
 #ifndef HAVE_TCLFILEHANDLER
-#if HAVE_CYGWIN
+#if HAVE_CYGWIN|HAVE_MINGW32
 #define HAVE_TCLFILEHANDLER 0
 #else
 #define HAVE_TCLFILEHANDLER 1
