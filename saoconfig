@@ -135,10 +135,10 @@ case $name in
 		CC=gcc CFLAGS="$CFLAGS $GCCFLAGS" $*
   ;;
 
-  jove*)
+  baba*)
   ./configure 	$CF					\
 		--prefix=${HOME}			\
-		CC=icc CFLAGS="$CFLAGS"  $*
+		CC=gcc CFLAGS="$CFLAGS"  $*
   ;;
 
   apple*|APPLE*)
