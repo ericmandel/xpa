@@ -181,10 +181,6 @@ case $host_os in
         ;;
     *darwin*|*Darwin*)
 	LDFLAGS="$LDFLAGS $CFLAGS"
-        G=`$CC -v 2>&1 | grep version | awk '{print $3}' | awk -F. '{print $1$2}'`
-        if test x"$G" != x -a "$G" -lt 42; then
-	  CFLAGS="$CFLAGS -no-cpp-precomp"
-        fi
         if test x"$TCL_PREFIX" = x"/usr/local"; then
 	  TCL_CFLAGS=""
           AC_MSG_RESULT([removing -I/usr/local/include])
