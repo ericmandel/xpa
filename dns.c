@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <strings.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <netdb.h>              /* gethostbyname() */
 
 #define SZ_LINE 1024
