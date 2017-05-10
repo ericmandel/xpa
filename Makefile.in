@@ -275,7 +275,7 @@ install-binaries: $(LIB) $(PROGS)
 	    do \
 	    if [ ! -d $$i ] ; then \
 		echo "Making directory $$i"; \
-		mkdir $$i; \
+		mkdir -p $$i; \
 		chmod 755 $$i; \
 		else true; \
 		fi; \
@@ -297,7 +297,7 @@ install-binaries: $(LIB) $(PROGS)
 install-man:
 	@if [ ! -d $(MAN_INSTALL_DIR) ] ; then \
 	    echo "Making directory $(MAN_INSTALL_DIR)"; \
-	    mkdir $(MAN_INSTALL_DIR); \
+	    mkdir -p $(MAN_INSTALL_DIR); \
 	    chmod 755 $(MAN_INSTALL_DIR); \
 	    else true; \
 	fi;
@@ -308,7 +308,7 @@ install-man:
 		M="$(MAN_INSTALL_DIR)/man$$E"; \
 		if [ ! -d $$M ] ; then \
 		    echo "Making directory $$M"; \
-		    mkdir $$M; \
+		    mkdir -p $$M; \
 		    chmod 755 $$M; \
 		    else true; \
 		fi; \
@@ -462,7 +462,7 @@ configure:	configure.ac
 
 dist:   	configure
 		($(RM) -r $(DISTDIR); \
-		mkdir $(DISTDIR); \
+		mkdir -p $(DISTDIR); \
 		cp -p *.[ch] *.tcl $(DISTDIR)/.; \
 		cp -p pkgIndex.tcl $(DISTDIR)/.; \
 		cp -p Makefile.in $(DISTDIR)/.; \
