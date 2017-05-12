@@ -66,7 +66,7 @@ access points for all active image display programs.
 
 <P>
 You can send stored data and new data to the same set of access points at
-the same time.  The stored data always is send first, followed by the new
+the same time.  The stored data always is sent first, followed by the new
 data:
 <PRE>
   cat foo2.fits | xpaset xpamb -send foo "DS9:*" fits foo.fits
@@ -158,7 +158,7 @@ by xpaget:
 the data buffer) if the -info switch is specified. If the info string contains
 spaces, you must enclose it in <B>two</B> sets of quotes:
 <PRE>
-  cat foo | xpaset xpamb -store foo -info "'this is info on foo'"
+  cat foo | xpaset xpamb -data foo -info "'this is info on foo'"
 </PRE>
 The first set of quotes is removed by the shell while the second is used to
 delineate the info string.
@@ -175,7 +175,7 @@ delineate the info string.
 <P>
 Switches can be used in any combination that makes sense. For example:
 <PRE>
-  cat foo.fits | xpaset xpamb -store foo -info "FITS" "DS9:*" fits foo.fits
+  cat foo.fits | xpaset xpamb -data foo -info "FITS" "DS9:*" fits foo.fits
 </PRE>
 will broadcast the foo.fits image to all access points of class
 <B>DS9</B>.  In addition, the foo.fits file will be stored under the
