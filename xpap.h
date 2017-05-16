@@ -185,7 +185,7 @@
 #define XPA_NSPORT	14285
 #define XPA_NSUNIX	"xpans_unix"
 #define XPA_RETRIES	10
-#define XPA_NSDELAY	150
+#define XPA_NSDELAY	300
 
 /* access control */
 #define XPA_ACLS	"gisa"

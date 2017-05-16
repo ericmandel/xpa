@@ -22,6 +22,8 @@ static int stimeout=XPA_SHORT_TIMEOUT; 	/* select, gets timeout in secs */
 static int ltimeout=XPA_LONG_TIMEOUT; 	/* fillbuf timeout in secs */
 static int ctimeout=XPA_CONNECT_TIMEOUT;/* local xpans connect */
 static int verbosity=XPA_VERBOSITY;	/* 0=quiet, 1=normal, 2=full */
+static int nsdelay=XPA_NSDELAY;	/* delay increment waiting for ns to start */
+static int retries=XPA_RETRIES;	/* retries when retrying */
 static int guseacl=1;		/* 0=don't use acls, 1=enable acls */
 static int etimestamp=0;	/* 0=don't timestamp errors, 1=do timestamp */
 static int nsregister=1;	/* 0=don't register with xpans, 1=register */
@@ -166,7 +168,7 @@ again2:
       xclose(ofd);
       /* Unix sockets get ECONNREFUSED when the listen queue is full,
 	 so we try a few times to give the server a chance to recover */
-      if( (xerrno == ECONNREFUSED) && (tries < XPA_RETRIES) ){
+      if( (xerrno == ECONNREFUSED) && (tries < retries) ){
 	tries++;
 	XPASleep(10);
 	goto again2;
@@ -614,7 +616,7 @@ again2:
       xclose(xnsfd);
       /* Unix sockets get ECONNREFUSED when the listen queue is full,
 	 so we try a few times to give the server a chance to recover */
-      if( (xerrno == ECONNREFUSED) && (tries < XPA_RETRIES) ){
+      if( (xerrno == ECONNREFUSED) && (tries < retries) ){
 	tries++;
 	XPASleep(10);
 	goto again2;
@@ -691,7 +693,7 @@ again2:
       goto nons;
 #endif
     /* enter loop looking to connect */
-    for(tries=0; tries<XPA_RETRIES; tries++){
+    for(tries=0; tries<retries; tries++){
       switch(mtype){
       case XPA_INET:
 	/* use $localhost alternately with $host */
@@ -724,7 +726,7 @@ again2:
 #endif
       }
       xclose(xnsfd);
-      XPASleep(XPA_NSDELAY);
+      XPASleep(nsdelay);
     }
     /* if we got here, we did not connect */
     goto nons;
@@ -2731,6 +2733,12 @@ void XPAInitEnv()
     /* set xpans connect timeout, if necessary */
     if( (s=(char *)getenv("XPA_CONNECT_TIMEOUT")) != NULL )
       ctimeout = atoi(s);
+    /* set nsdelay timeout, if necessary */
+    if( (s=(char *)getenv("XPA_NSDELAY")) != NULL )
+      nsdelay = atoi(s);
+    /* set retries, if necessary */
+    if( (s=(char *)getenv("XPA_RETRIES")) != NULL )
+      retries = atoi(s);
     /* set verbosity level, if necessary */
     if( (s=(char *)getenv("XPA_VERBOSITY")) != NULL ){
       if( istrue(s) )
