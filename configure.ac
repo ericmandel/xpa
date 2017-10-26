@@ -43,7 +43,7 @@ AC_CHECK_TYPES([socklen_t], [], [], [#include <sys/socket.h>])
 
 AC_C_CONST
 
-AC_CHECK_FUNCS(strchr memcpy snprintf atexit setenv)
+AC_CHECK_FUNCS(strchr memcpy snprintf atexit setenv getaddrinfo)
 
 AC_CHECK_FUNC(connect)
 if test $ac_cv_func_connect = no; then

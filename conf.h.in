@@ -74,6 +74,9 @@
 /* Define as 1 if you have atexit  */
 #undef HAVE_ATEXIT
 
+/* Define as 1 if you have getaddrinfo  */
+#undef HAVE_GETADDRINFO
+
 /* Define as 1 if you have pthread library  */
 #undef HAVE_LIBPTHREAD
 

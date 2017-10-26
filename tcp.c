@@ -85,7 +85,11 @@ int gethost(xhost, len)
 #endif
 {
     char *s=NULL;
+#if HAVE_GETADDRINFO
+    struct addrinfo *hints=NULL, *addrinfo=NULL;
+#else
     struct hostent *hent;
+#endif
     static int init=0;
 
     if( use_localhost == 0 ){
@@ -98,10 +102,25 @@ int gethost(xhost, len)
 	init++;
       }
       strncpy(xhost, myhost, len-1);
+
+#if HAVE_GETADDRINFO
+      hints = (struct addrinfo *)calloc(1, sizeof(struct addrinfo));
+      hints->ai_flags |= AI_CANONNAME;
+      hints->ai_family = AF_INET;
+      if( getaddrinfo(xhost, NULL, hints, &addrinfo) != 0 ){
+	freeaddrinfo(addrinfo);
+	if( hints ) free(hints);
+	return -1;
+      }
+      strncpy(xhost, addrinfo->ai_canonname, len-1);
+      freeaddrinfo(addrinfo);
+      if( hints ) free(hints);
+#else
       if( (hent = gethostbyname(xhost)) == NULL ){
 	return(-1);
       }
       strncpy(xhost, hent->h_name, len-1);
+#endif
     }
     else{
       strncpy(xhost, "localhost", len-1);
@@ -131,12 +150,17 @@ unsigned int gethostip(xhost)
     char *xhost;		/* (in) Hostname (human readable) */
 #endif
 {
+#if HAVE_GETADDRINFO
+    struct addrinfo *hints=NULL, *addrinfo=NULL;
+    struct sockaddr_in * p;
+    int got;
+#else
     struct hostent *hostent;
+#endif
     unsigned int ip;
     char temp[SZ_LINE];
     int saveip=0;
     static unsigned int myip=0;
-    
     
     /* null input means current host */
     if( (xhost == NULL) || (*xhost == '\0') || !strcmp(xhost, "$host") ){
@@ -166,6 +190,19 @@ unsigned int gethostip(xhost)
       goto done;
     }
 
+#if HAVE_GETADDRINFO
+    /*
+     * Try looking it up by name.
+     */
+    hints = (struct addrinfo *)calloc(1, sizeof(struct addrinfo));
+    hints->ai_family = AF_INET;
+    got = getaddrinfo(temp, NULL, hints, &addrinfo);
+    if( got == 0 ){
+      p = (struct sockaddr_in *)(addrinfo->ai_addr);
+      memcpy(&ip, &(p->sin_addr.s_addr), sizeof(p->sin_addr.s_addr));
+      goto done;
+    }
+#else
     /*
      * Try looking it up by name. If successful, the IP address is in
      * hostent->h_addr_list[0]
@@ -174,12 +211,16 @@ unsigned int gethostip(xhost)
       memcpy(&ip, hostent->h_addr_list[0], (size_t)hostent->h_length);
       goto done;
     }
-
+#endif
     /* could not convert */
     ip = 0;
     saveip = 0;
 
 done:
+#if HAVE_GETADDRINFO
+    freeaddrinfo(addrinfo);
+    if( hints ) free(hints);
+#endif
     ip = ntohl(ip);
     if( saveip ) myip = ip;
     return(ip);
