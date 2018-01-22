@@ -11,6 +11,9 @@
 /* Define as 1 if you have stdlib.h  */
 #undef HAVE_STDLIB_H
 
+/* Define as 1 if you have stdint.h  */
+#undef HAVE_STDINT_H
+
 /* Define as 1 if you have malloc.h  */
 #undef HAVE_MALLOC_H
 
