@@ -708,6 +708,9 @@ int keyword(ibuf, key, obuf, maxlen)
 	  case '[':
 	    quote = ']';
 	    break;
+	  default:
+	    quote = '\0';
+	    break;
 	  }
 	  /* bump past opening quote char */
 	  t++; u++; v++;

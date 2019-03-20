@@ -2673,7 +2673,7 @@ int XPASetFd(xpa, xtemplate, paramlist, mode, fd, names, messages, n)
   int got2=0;
   int type='s';
   int idef=1;
-  int flags;
+  int flags=0;
   char *s;
   char tbuf[SZ_LINE];
   XPAClient client, tclient;

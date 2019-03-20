@@ -346,7 +346,7 @@ main(argc, argv)
   size_t lens[MAX_FPS];
   size_t dlens[MAX_FPS];
   int i;
-  int got;
+  int got=0;
   int maxbufs;
   int j=0;
   int loop=1;
