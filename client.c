@@ -1061,13 +1061,19 @@ static int XPAClientGet(xpa, client)
       if( xpa->nclient > 1 ){
 	snprintf(tbuf, SZ_LINE, "XPA$BEGIN %s:%s %s\n",
 		 client->xclass, client->name, client->method);
-	write(client->fd, tbuf, strlen(tbuf));
+	if( write(client->fd, tbuf, strlen(tbuf)) < 0 ){
+	  fprintf(stderr, "warning: XPA client can't write header\n");
+	}
       }
-      write(client->fd, *(client->bufptr), *(client->lenptr));
+      if( write(client->fd, *(client->bufptr), *(client->lenptr)) < 0 ){
+	fprintf(stderr, "warning: XPA client can't write data\n");
+      }
       if( xpa->nclient > 1 ){
 	snprintf(tbuf, SZ_LINE, "XPA$END   %s:%s %s\n",
 		 client->xclass, client->name, client->method);
-	write(client->fd, tbuf, strlen(tbuf));
+	if( write(client->fd, tbuf, strlen(tbuf)) < 0 ){
+	  fprintf(stderr, "warning: XPA client can't write header\n");
+	}
       }
       /* we can free buf, since its not being passed back */
       if( *(client->bufptr) ){
@@ -1096,7 +1102,9 @@ static int XPAClientGet(xpa, client)
     /* for single client fd mode, we write immediately -- this deals with
        the important case of one client with a large amount of data */
     if( (client->mode & XPA_CLIENT_FD) && (xpa->nclient == 1) ){
-      write(client->fd, *(client->bufptr), *(client->lenptr));
+      if( write(client->fd, *(client->bufptr), *(client->lenptr)) < 0 ){
+	fprintf(stderr, "warning: XPA client can't write data\n");
+      }
       /* reset buf for next read */
       if( *(client->bufptr) ) xfree(*(client->bufptr));
       *(client->bufptr) = NULL;
@@ -1532,8 +1540,9 @@ static int XPAClientLoopFork(xpa, mode)
   else if( pid == 0 ){	/* child */
     /* child write to parent that he is active */
     close(fd[0]);
-    write(fd[1], &active, 1);
-    close(fd[1]);
+    if( write(fd[1], &active, 1) >= 0 ){
+      close(fd[1]);
+    }
 #ifdef USE_DOUBLE_FORK
     /* second fork prevents zombies:
        when child/parent exits, second child is inherited 
@@ -1552,8 +1561,9 @@ static int XPAClientLoopFork(xpa, mode)
   } else {		/* parent */
     /* parent waits for child to wake up */
     close(fd[1]);
-    read(fd[0], &active, 1);
-    close(fd[0]);
+    if( read(fd[0], &active, 1) >= 0 ){
+      close(fd[0]);
+    }
 #ifdef USE_DOUBLE_FORK
     /* for double fork, also wait for intermediate process to exit */
     waitpid(pid, NULL, 0);

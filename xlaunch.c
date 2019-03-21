@@ -220,7 +220,9 @@ static int launch_fork_exec(char *cmdstring, int attach,
 	  case 2:
 	    /* if stderr is the same as stdout, just dup */
 	    if( stdfiles[1] && !strcmp(stdfiles[1], stdfiles[i]) ){
-	      dup(1);
+	      if( dup(1) < 0 ){
+		_exit(-1);
+	      }
 	    }
 	    else{
 	      if( open(stdfiles[i], O_CREAT|O_WRONLY|O_TRUNC, 0600) < 0){
@@ -279,8 +281,9 @@ static int launch_fork_exec(char *cmdstring, int attach,
       status = 127;
 #if LAUNCH_USE_PIPE
       if( !attach ){
-	write(fd[1], &status, 4);
-	close(fd[1]);
+	if( write(fd[1], &status, 4) >= 0 ){
+	  close(fd[1]);
+	}
       }
 #endif
       _exit(status);		/* exec error */

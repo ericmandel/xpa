@@ -40,7 +40,9 @@ static void _xalloc_error(void)
 static void _xalloc_error()
 #endif
 {
-  write(1, XALLOC_ERROR, strlen(XALLOC_ERROR));
+  if( write(1, XALLOC_ERROR, strlen(XALLOC_ERROR)) < 0 ){
+    exit(1);
+  }
 #if XALLOC_SETJMP
   if( xalloc_envptr )
     longjmp(*xalloc_envptr, XALLOC_SETJMP);

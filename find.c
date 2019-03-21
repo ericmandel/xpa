@@ -188,7 +188,9 @@ char *ResolvePath(ibuf, obuf, maxlen)
 
   /* if we have a relative path to deal with, get current directory */
   if( (*ibuf == '.') || ( (strchr(ibuf, '/') != NULL) && (*ibuf != '/') ) ){
-    getcwd(path, MAXBUFSIZE);
+    if( !getcwd(path, MAXBUFSIZE) ){
+      *path = '\0';
+    }
   }
   else{
     *path = '\0';
