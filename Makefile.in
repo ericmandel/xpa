@@ -290,8 +290,8 @@ install-binaries: $(LIB) $(PROGS)
 	@$(INSTALL_DATA) prsetup.h $(INCLUDE_INSTALL_DIR)/prsetup.h
 	@for i in $(PROGS) ; \
 	    do \
-	        echo "Installing $$i$(EXE)" ; \
-		$(INSTALL_PROGRAM) $$i$(EXE) $(BIN_INSTALL_DIR)/$$i$(EXE) ; \
+	        echo "Installing $$i" ; \
+		$(INSTALL_PROGRAM) $$i $(BIN_INSTALL_DIR)/$$i$(EXE) ; \
 	    done;
 
 install-man:
