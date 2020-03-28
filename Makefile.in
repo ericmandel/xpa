@@ -213,34 +213,34 @@ index:		$(LIB)
 		echo "pkg_mkIndex -direct -verbose . libtclxpa.so; exit"| tclsh)
 
 xpaset:		$(LIB) xpaset.o
-		$(CC) $(LDFLAGS) xpaset.o -o xpaset $(LLIB) $(LIBS)
+		$(CC) $(LDFLAGS) xpaset.o -o xpaset$(EXE) $(LLIB) $(LIBS)
 
 xpaget:		$(LIB) xpaget.o
-		$(CC) $(LDFLAGS) xpaget.o -o xpaget $(LLIB) $(LIBS)
+		$(CC) $(LDFLAGS) xpaget.o -o xpaget$(EXE) $(LLIB) $(LIBS)
 
 xpainfo:	$(LIB) xpainfo.o
-		$(CC) $(LDFLAGS) xpainfo.o -o xpainfo $(LLIB) $(LIBS)
+		$(CC) $(LDFLAGS) xpainfo.o -o xpainfo$(EXE) $(LLIB) $(LIBS)
 
 xpaaccess:	$(LIB) xpaaccess.o
-		$(CC) $(LDFLAGS) xpaaccess.o -o xpaaccess $(LLIB) $(LIBS)
+		$(CC) $(LDFLAGS) xpaaccess.o -o xpaaccess$(EXE) $(LLIB) $(LIBS)
 
 xpans:		$(LIB) xpans.o
-		$(CC) $(LDFLAGS) xpans.o -o xpans $(LLIB) $(LIBS) $(TLIB)
+		$(CC) $(LDFLAGS) xpans.o -o xpans$(EXE) $(LLIB) $(LIBS) $(TLIB)
 
 xpamb:		$(LIB) xpamb.o
-		$(CC) $(LDFLAGS) xpamb.o -o xpamb $(LLIB) $(LIBS)
+		$(CC) $(LDFLAGS) xpamb.o -o xpamb$(EXE) $(LLIB) $(LIBS)
 
 ctest:		$(LIB) ctest.o
-		$(CC) $(LDFLAGS) ctest.o -o ctest $(LLIB) $(LIBS)
+		$(CC) $(LDFLAGS) ctest.o -o ctest$(EXE) $(LLIB) $(LIBS)
 
 stest:		$(LIB) stest.o
-		$(CC) $(LDFLAGS) stest.o -o stest $(LIB) $(LIBS)
+		$(CC) $(LDFLAGS) stest.o -o stest$(EXE) $(LIB) $(LIBS)
 
 rtest:		$(LIB) rtest.o
-		$(CC) $(LDFLAGS) rtest.o -o rtest $(LIB) $(LIBS)
+		$(CC) $(LDFLAGS) rtest.o -o rtest$(EXE) $(LIB) $(LIBS)
 
 stestx:		$(LIB) stest.o
-		$(CC) $(LDFLAGS) stest.o -o stest $(LIB) \
+		$(CC) $(LDFLAGS) stest.o -o stest$(EXE) $(LIB) \
 		$(X_LIBS) -lXt $(X_PRE_LIBS) -lXext -lX11 $(LIBS)
 
 # Smoke test: allows end-users to quickly discern basic usability
@@ -290,8 +290,8 @@ install-binaries: $(LIB) $(PROGS)
 	@$(INSTALL_DATA) prsetup.h $(INCLUDE_INSTALL_DIR)/prsetup.h
 	@for i in $(PROGS) ; \
 	    do \
-	        echo "Installing $$i" ; \
-		$(INSTALL_PROGRAM) $$i $(BIN_INSTALL_DIR)/$$i$(EXE) ; \
+	        echo "Installing $$i$(EXE)" ; \
+		$(INSTALL_PROGRAM) $$i$(EXE) $(BIN_INSTALL_DIR)/$$i$(EXE) ; \
 	    done;
 
 install-man:
