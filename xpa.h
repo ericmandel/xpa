@@ -20,8 +20,8 @@
 
 #define XPA_MAJOR_VERSION 2
 #define XPA_MINOR_VERSION 1
-#define XPA_PATCH_LEVEL 19
-#define XPA_VERSION "2.1.19"
+#define XPA_PATCH_LEVEL 20
+#define XPA_VERSION "2.1.20"
 
 /* #define XPA_DEBUG 1 */
 #ifdef XPA_DEBUG
